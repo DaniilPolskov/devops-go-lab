@@ -3,7 +3,7 @@ stages:
   - test
 
 variables:
-  GO_VERSION: "1.22"
+  GO_VERSION: "1.22.2"
 
 image: golang:${GO_VERSION}-alpine
 
