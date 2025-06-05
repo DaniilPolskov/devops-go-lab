@@ -84,5 +84,3 @@ The `.gitlab-ci.yml` file defines stages for build and test and can be extended 
 
 * GitHub Repo: [https://github.com/DaniilPolskov/devops-go-lab](https://github.com/DaniilPolskov/devops-go-lab)
 * GitLab CI/CD: [https://gitlab.com/daniilpolskov-group/devops-go-lab](https://gitlab.com/daniilpolskov-group/devops-go-lab)
-
-```
