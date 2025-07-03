@@ -1,0 +1,21 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Build') {
+      steps {
+        sh 'go build -o app ./cmd/server'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'go test ./...'
+      }
+    }
+    stage('Docker Build') {
+      steps {
+        sh 'docker build -t daniilpolskov/devops-go-lab .'
+      }
+    }
+  }
+}
