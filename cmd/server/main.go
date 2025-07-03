@@ -8,9 +8,19 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var requestCount int
+var (
+	requestCount = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "app_http_requests_total",
+			Help: "Total number of HTTP requests",
+		},
+	)
+)
 
 func main() {
 	err := godotenv.Load()
@@ -23,10 +33,14 @@ func main() {
 		port = "8080"
 	}
 
+	prometheus.MustRegister(requestCount)
+
 	http.HandleFunc("/", helloHandler)
 	http.HandleFunc("/health", healthHandler)
 	http.HandleFunc("/time", timeHandler)
 	http.HandleFunc("/env", envHandler)
+
+	http.Handle("/metrics", promhttp.Handler())
 
 	log.Printf("The server is running on http://localhost:%s", port)
 	err = http.ListenAndServe(":"+port, nil)
@@ -36,8 +50,8 @@ func main() {
 }
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	requestCount++
-	fmt.Fprintf(w, "Go Server is working! Total requests: %d\n", requestCount)
+	requestCount.Inc()
+	fmt.Fprintf(w, "Go Server is working! Total requests counted by Prometheus metric.\n")
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
