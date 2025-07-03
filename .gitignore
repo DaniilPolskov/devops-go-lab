@@ -1,3 +1,7 @@
 /main
 *.exe
 *.log
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+*.tfvars
